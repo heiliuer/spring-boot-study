@@ -1,0 +1,18 @@
+app_common:
+  name: world
+server:
+  # random port 0
+  port: 8080
+
+swagger:
+  apiInfo:
+    version: 1.0
+    title: Swagger Demo
+    description: Demo
+    termsOfServiceUrl: http://localhost:8080/swagger-ui.html#/
+    license: MIT
+    licenseUrl:
+    contact:
+      name: heiliuer
+      url:
+      email:
