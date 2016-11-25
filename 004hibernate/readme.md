@@ -1,4 +1,3 @@
-## 001helllo-world
 
 - Run `com.heiliuer.HelloApp.main`
 
