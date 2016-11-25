@@ -2,12 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.heiliuer</groupId>
-    <artifactId>springboot-hello</artifactId>
+    <groupId>com.heiliuer.springboot_study</groupId>
+    <artifactId>001hello-world</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-
-    <name>springboot-hello</name>
+    <name>${project.artifactId}</name>
     <url>http://maven.apache.org</url>
 
     <parent>
