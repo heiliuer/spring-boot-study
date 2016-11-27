@@ -3,3 +3,5 @@ app_common:
 server:
   # random port 0
   port: 8080
+spring.profiles.active: jpa
+

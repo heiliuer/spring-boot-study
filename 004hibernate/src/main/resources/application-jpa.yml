@@ -1,0 +1,15 @@
+spring:
+    datasource:
+        password: rs6kwsmtoor
+        testWhileIdle: true
+        url: jdbc:mysql:///spring-boot-hello-world
+        username: root
+        validationQuery: SELECT 1
+    jpa:
+        hibernate:
+            ddl-auto: update
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5Dialect
+        show-sql: false
