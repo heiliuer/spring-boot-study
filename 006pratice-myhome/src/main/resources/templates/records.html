@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>追剧</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"/>
+</head>
+<body>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>电视剧名称</th>
+        <th>最新一集</th>
+        <th>更新时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--/*@thymesVar id="records" type="java.util.ArrayList<com.heiliuer.youku.entity.Record>"*/-->
+    <tr th:each="record ,iterStat :${records}">
+        <th scope="row" th:text="${iterStat.count}">1</th>
+
+        <td th:text="${record.name}">Onions</td>
+        　　
+        <td th:text="${record.episodeLast}">yes</td>
+
+        <td th:text="${record.latestCheckTime}">yes</td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+</html>

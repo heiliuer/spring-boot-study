@@ -4,6 +4,7 @@ import com.heiliuer.youku.entity.Record;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Transactional
 public interface RecordDao extends CrudRepository<Record, Long> {
@@ -13,6 +14,6 @@ public interface RecordDao extends CrudRepository<Record, Long> {
      * Note that this method is not implemented and its working code will be
      * automagically generated from its signature by Spring Data JPA.
      */
-    public Record findByVideoId(Integer videoId);
+    public Optional<Record> findByVideoId(Integer videoId);
 
 }

@@ -1,4 +1,4 @@
-package com.heiliuer;
+package com.heiliuer.rest;
 
 import com.heiliuer.config.AppCommonProperties;
 import com.heiliuer.youku.dao.RecordDao;

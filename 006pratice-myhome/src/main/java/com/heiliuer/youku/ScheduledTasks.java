@@ -21,26 +21,40 @@ public class ScheduledTasks {
     @Autowired
     RecordDao recordDao;
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 1000 * 60 * 20)
     public void reportCurrentTime() {
         System.out.println("现在时间：" + dateFormat.format(new Date()));
         //        vid=631595852&showid=315070&
+
         Integer vid = 631595852;
         Integer showid = 315070;
 
+        parseRecord(vid, showid, "我的狐仙老婆");
+
+    }
+
+    private void parseRecord(Integer vid, Integer showid, String name) {
         Optional<YoukuApiVideoDetailDto> parse = youkuVideoParser.parse(vid, showid);
 
-        parse.ifPresent(detail -> {
-            Record byVideoId = recordDao.findByVideoId(vid);
-            if (byVideoId == null) {
+        if (parse.isPresent()) {
+            Integer episodeLast = Integer.valueOf(parse.get().getData().getEpisode_last());
+            Optional<Record> recordOptional = recordDao.findByVideoId(vid);
+            if (recordOptional.isPresent()) {
+                Record record = recordOptional.get();
+                record.setEpisodeLast(episodeLast);
+                record.setLatestCheckTime(System.currentTimeMillis());
+                recordDao.save(record);
+            } else {
                 Record record = new Record();
-                record.setName("我的狐仙老婆");
+                record.setName(name);
                 record.setShowId(showid);
                 record.setVideoId(vid);
-                record.setEpisodeLast(Integer.valueOf(parse.get().getData().getEpisode_last()));
+                record.setLatestCheckTime(System.currentTimeMillis());
+                record.setEpisodeLast(episodeLast);
                 recordDao.save(record);
             }
-        });
+        } else {
 
+        }
     }
 }

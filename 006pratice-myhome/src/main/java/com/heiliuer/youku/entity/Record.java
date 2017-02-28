@@ -15,6 +15,10 @@ public class Record {
     @NotNull
     private Integer videoId;
 
+    private Long createTime;
+
+    private Long latestCheckTime;
+
     @NotNull
     private Integer showId;
 
@@ -25,9 +29,26 @@ public class Record {
     private Integer episodeLast;
 
 
-    // Public methods
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public Long getLatestCheckTime() {
+        return latestCheckTime;
+    }
+
+    public void setLatestCheckTime(Long latestCheckTime) {
+        this.latestCheckTime = latestCheckTime;
+    }
+
+// Public methods
 
     public Record() {
+        createTime = System.currentTimeMillis();
     }
 
 
