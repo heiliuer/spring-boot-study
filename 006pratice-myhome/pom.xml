@@ -93,6 +93,13 @@
 
         <!--</editor-fold>-->
 
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.5</version>
+        </dependency>
+
     </dependencies>
 
     <profiles>
