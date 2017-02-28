@@ -2,7 +2,7 @@ spring:
     datasource:
         password: rs6kwsmtoor
         testWhileIdle: true
-        url: jdbc:mysql:///test
+        url: jdbc:mysql:///spring-boot-hello-world
         username: root
         validationQuery: SELECT 1
     jpa:
