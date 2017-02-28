@@ -29,7 +29,8 @@
         　　
         <td th:text="${record.episodeLast}">yes</td>
 
-        <td th:text="${record.latestCheckTime}">yes</td>
+        <!--/*@thymesVar id="mydate" type="com.heiliuer.config.MyDate"*/-->
+        <td th:text="${#dates.format(mydate.getDate(record.latestCheckTime),'yy-MM-dd hh:mm')}">yes</td>
     </tr>
     </tbody>
 </table>
