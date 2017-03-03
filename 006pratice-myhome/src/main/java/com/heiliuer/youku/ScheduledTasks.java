@@ -30,7 +30,7 @@ public class ScheduledTasks {
     private TemplateEngine templateEngine;
 
     @Scheduled(fixedDelay = 1000 * 60 * 20)
-    public void reportCurrentTime() {
+    public void checkYouku() {
         System.out.println("现在时间：" + dateFormat.format(new Date()));
         //        vid=631595852&showid=315070&
 
@@ -41,25 +41,28 @@ public class ScheduledTasks {
 
     }
 
-    private void parseRecord(Integer vid, Integer showid, String name) {
+    public void parseRecord(Integer vid, Integer showid, String name) {
         Optional<YoukuApiVideoDetailDto> parse = youkuVideoParser.parse(vid, showid);
 
         if (parse.isPresent()) {
-            Integer episodeLast = Integer.valueOf(parse.get().getData().getEpisode_last());
+            //最新一集  getEpisode_last 不是最新一集 坑爹 getIteCount 才是
+            YoukuApiVideoDetailDto detail = parse.get();
+
+            Integer episodeLast = detail.getData().getIteCount();
+
             Optional<Record> recordOptional = recordDao.findByVideoId(vid);
+
             if (recordOptional.isPresent()) {
                 Record record = recordOptional.get();
                 Integer prevEpisodeLast = record.getEpisodeLast();
-
-                if (!Objects.equals(prevEpisodeLast, episodeLast)) {
-
-                }
-
-                sendEmailForEpisodeLastChanged(record);
-
                 record.setEpisodeLast(episodeLast);
                 record.setLatestCheckTime(System.currentTimeMillis());
                 recordDao.save(record);
+
+                if (!Objects.equals(prevEpisodeLast, episodeLast)) {
+                    sendEmailForEpisodeLastChanged(detail,record);
+                }
+
             } else {
                 Record record = new Record();
                 record.setName(name);
@@ -75,9 +78,10 @@ public class ScheduledTasks {
     }
 
     @Async
-    private void sendEmailForEpisodeLastChanged(Record record) {
+    private void sendEmailForEpisodeLastChanged(YoukuApiVideoDetailDto detail, Record record) {
         Context ctx = new Context(Locale.CHINA);
         ctx.setVariable("record", record);
+        ctx.setVariable("detail", detail);
         String htmlContent = this.templateEngine.process("email/changed", ctx);
         EmailContent emailContent = new EmailContent();
 

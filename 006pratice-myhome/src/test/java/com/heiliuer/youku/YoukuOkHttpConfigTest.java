@@ -27,11 +27,15 @@ public class YoukuOkHttpConfigTest extends TestCase {
     public void testYoukuOkhttpClient() throws Exception {
         Optional<YoukuApiVideoDetailDto> parse = youkuVideoParser.parse(631595852, 315070);
         Assert.assertTrue(parse.isPresent());
-
+        Assert.assertEquals(parse.get().getData().getIteCount(), 14);
     }
 
-    public void testYoukuRetrofit() throws Exception {
+    @Autowired
+    ScheduledTasks scheduledTasks;
 
+    @Test
+    public void testYoukuScheduledTasks() throws Exception {
+        scheduledTasks.checkYouku();
     }
 
 }
