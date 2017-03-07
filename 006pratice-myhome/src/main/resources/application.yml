@@ -1,5 +1,7 @@
 spring.profiles.active: jpa,env
-spring.thymeleaf.cache: false
+spring:
+  thymeleaf:
+    cache: false
 app_common:
   name: world
 

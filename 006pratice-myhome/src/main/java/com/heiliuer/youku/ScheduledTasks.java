@@ -52,10 +52,8 @@ public class ScheduledTasks {
                 Integer prevEpisodeLast = record.getEpisodeLast();
 
                 if (!Objects.equals(prevEpisodeLast, episodeLast)) {
-
+                    sendEmailForEpisodeLastChanged(record);
                 }
-
-                sendEmailForEpisodeLastChanged(record);
 
                 record.setEpisodeLast(episodeLast);
                 record.setLatestCheckTime(System.currentTimeMillis());
