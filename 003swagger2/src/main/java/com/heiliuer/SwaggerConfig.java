@@ -17,24 +17,24 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
                 "My REST API",
-                "Some custom description of API.",
-                "API TOS",
-                "Terms of service",
-                new Contact("name", "url", "email"),
-                "License of API",
-                "API license URL");
+                "demo api",
+                "1.1",
+                "http://www.heiliuer.com",
+                new Contact("heiliuer", "http://www.heiliuer.com", "heiliuer@qq.com"),
+                "MIT",
+                "http://www.heiliuer.com");
         return apiInfo;
     }
 
 
     /**
-     * http://localhost:8080/api/swagger-ui.html
+     * 访问 http://localhost:8080/swagger-ui.html
      *
      * @return
      */
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2).pathMapping("api") //base path
+        return new Docket(DocumentationType.SWAGGER_2).pathMapping("") //（web app context） api路由的前綴
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())

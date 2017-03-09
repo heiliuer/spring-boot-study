@@ -49,7 +49,7 @@
     
         `Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]`
     
-    - 访问 http://localhost:8080/api/swagger-ui.html
+    - 访问 http://localhost:8080/swagger-ui.html
         
         > `new Docket(DocumentationType.SWAGGER_2).pathMapping("api")`
         
