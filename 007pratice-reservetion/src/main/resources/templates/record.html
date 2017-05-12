@@ -20,7 +20,7 @@
     </tr>
     </thead>
     <tbody>
-    <!--/*@thymesVar id="records" type="java.util.ArrayList<com.heiliuer.youku.entity.Record>"*/-->
+    <!--/*@thymesVar id="records" type="java.util.ArrayList<com.heiliuer.reservetion.entity.Record>"*/-->
     <tr th:each="record ,iterStat :${records}">
         <th scope="row" th:text="${iterStat.count}">1</th>
 
@@ -28,7 +28,7 @@
         　　
         <td th:text="${record.episodeLast}">yes</td>
 
-        <!--/*@thymesVar id="mydate" type="com.heiliuer.config.MyDate"*/-->
+        <!--/*@thymesVar id="mydate" type="com.heiliuer.reservetion.config.MyDate"*/-->
         <td th:text="${#dates.format(mydate.getDate(record.latestCheckTime),'yy-MM-dd hh:mm')}">yes</td>
     </tr>
     </tbody>

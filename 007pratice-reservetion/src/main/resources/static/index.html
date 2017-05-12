@@ -86,13 +86,11 @@
                     <form class="form-horizontal">
                         <div class="form-group">
                             <label for="inputTable" class="col-sm-5 control-label text-left">实验台</label>
-                            <div class="col-sm-7">
+                            <div class="col-sm-7" v-if="jsonData.tables">
                                 <select class="form-control" id="inputTable" v-model="table">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    <option :value="table.id" v-for="table in jsonData.tables">
+                                        {{table.tablename}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -167,7 +165,7 @@
                                         <div class="form-group">
                                             <label for="username" class="col-sm-3 control-label">账户</label>
                                             <div class="col-sm-9">
-                                                <input type="text" required="required" name="employeeNumber"
+                                                <input type="text" v-model="form.username" required="required" name="employeeNumber"
                                                        class="form-control"
                                                        id="username" placeholder="如：201401411">
                                             </div>
@@ -175,7 +173,7 @@
                                         <div class="form-group">
                                             <label for="password" class="col-sm-3 control-label">密码</label>
                                             <div class="col-sm-9">
-                                                <input type="password" required="required" class="form-control"
+                                                <input type="password" v-model="form.password" required="required" class="form-control"
                                                        id="password"
                                                        placeholder="Password">
                                             </div>
@@ -244,6 +242,7 @@
         color: #fff;
     }
 </style>
+<script src="js/axios.js"></script>
 <script src="js/vue.js"></script>
 <script src="js/jquery.js"></script>
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
