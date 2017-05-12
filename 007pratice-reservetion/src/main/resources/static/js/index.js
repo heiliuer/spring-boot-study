@@ -1,0 +1,127 @@
++function () {
+
+    Date.prototype.formatDate = function (fmt) { // author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, // 月份
+            "d+": this.getDate(), // 日
+            "h+": this.getHours(), // 小时
+            "m+": this.getMinutes(), // 分
+            "s+": this.getSeconds(), // 秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+            "S": this.getMilliseconds()
+            // 毫秒
+        };
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4
+                - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1)
+                    ? (o[k])
+                    : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+
+    function getDateStr(date) {
+        if (!date) {
+            return ''
+        }
+        if (typeof  date === 'number') {
+            date = new Date(date)
+        }
+        return date.formatDate('yyyy-MM-dd')
+    }
+
+    function nextDayDate(date, day) {
+        return new Date(date.getTime() + 1000 * 3600 * 24 * day)
+    }
+
+    var date = new Date()
+    var dateStr = getDateStr(date)
+
+    var types = [
+        /*'00:00~02:00',
+         '00:00~02:00',
+         '04:00~06:00',
+         '06:00~08:00',*/
+        '08:00~10:00',
+        '10:00~12:00',
+        '12:00~14:00',
+        '14:00~16:00',
+        '16:00~18:00',
+        '18:00~20:00',
+        '20:00~22:00',
+        /*'22:00~24:00'*/
+    ]
+
+
+    var DATE_MIN = getDateStr(date.getTime())
+
+    new Vue({
+        el: '#app',
+        template: '#appTmpl',
+        data: {
+            dateYuyue: {},
+            types: types,
+            DATE_MIN: DATE_MIN,
+            tabs: {
+                data: ['预约', '我的预约'],
+                cur: 0,
+            },
+            dateTime: date.getTime(),
+            date: dateStr,
+            table: 1,//当前设备id
+            logged: false,
+        },
+        watch: {
+            date: function (date) {
+                this.dateTime = new Date(date).getTime()
+                this.initRandomYuYue()
+            }
+        },
+        methods: {
+            cancelTable: function (event) {
+                if (confirm('确认取消预约')) {
+                    var $li = $(event.target).closest('li')
+                    $li.slideUp(function () {
+                        $(this).remove()
+                    })
+                }
+            },
+            login: function () {
+                $('#loginModal').modal('hide')
+                this.logged = true
+            },
+            showLogin: function () {
+                $('#loginModal').modal('show')
+            },
+            yuyue: function (date, index, event) {
+
+                if (this.logged) {
+                    if (confirm('确认预约 ' + date + ' ' + this.types[index])) {
+                        this.dateYuyue[date][index] = true
+                        this.dateYuyue[date] = this.dateYuyue[date]
+                        $(event.target).addClass('disable')
+                    }
+                } else {
+                    this.showLogin()
+                }
+            },
+            initRandomYuYue: function () {
+                var vm = this
+                var dateYuyue = {}
+                new Array(7).fill(0).forEach(function (val, index) {
+                    dateYuyue[getDateStr(nextDayDate(new Date(vm.dateTime), index))] = new Array(7).fill(0).map(function (index) {
+                        return Math.random() > 0.5
+                    })
+                })
+                vm.dateYuyue = dateYuyue
+            }
+        },
+        created: function () {
+
+            this.initRandomYuYue()
+        }
+
+    })
+}()

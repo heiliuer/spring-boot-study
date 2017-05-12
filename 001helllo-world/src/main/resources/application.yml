@@ -1,5 +1,9 @@
 app_common:
   name: world
+  ages:
+    - 1
+    - 2
+    - 3
 server:
   # random port 0
   port: 4569

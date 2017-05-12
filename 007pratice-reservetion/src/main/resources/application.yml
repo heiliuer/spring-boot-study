@@ -1,0 +1,9 @@
+spring.profiles.active: jpa,env
+spring:
+  thymeleaf:
+    cache: false
+app_common:
+  name: world
+
+
+
