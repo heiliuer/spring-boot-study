@@ -1,44 +1,74 @@
 package com.heiliuer.reservetion.rest;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.gson.Gson;
 import com.heiliuer.reservetion.dao.UserInfoDao;
+import com.heiliuer.reservetion.dto.LoginDto;
 import com.heiliuer.reservetion.entity.UserInfo;
+import com.heiliuer.reservetion.utils.JsonResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import static com.heiliuer.reservetion.utils.Constants.SESSION_KEY_LOGGED;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("user")
+@Api(description = "用户管理")
 public class UserInfoController {
 
+    static final Logger logger = LoggerFactory.getLogger(UserInfoController.class);
 
     @Autowired
     UserInfoDao userInfoModelDao;
 
 
-    @RequestMapping("list")
+    @ApiOperation("获取所有用户")
+    @RequestMapping(value = "list", method = RequestMethod.GET)
     Iterable<UserInfo> list(Model model) {
         Iterable<UserInfo> users = userInfoModelDao.findAll();
         return users;
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
-    JsonResult login(String username, String password, HttpServletRequest request) {
-        System.out.println(username + " " + password);
-        // TODO
-        if ("admin".equalsIgnoreCase(username) && "admin".equalsIgnoreCase(password)) {
-            request.getSession().setAttribute(SESSION_KEY_LOGGED, true);
-            return new JsonResult(0, "success");
+    @ApiOperation("登录")
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    ResponseEntity<JsonResult> login(@RequestBody @Valid LoginDto login, BindingResult result, HttpSession session) {
+
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(new JsonResult(JsonResult.STATUS_ERROR, result));
         }
-        return new JsonResult(-1, "failed");
+
+        logger.info(new Gson().toJson(login));
+
+        userInfoModelDao.findAll()
+
+        if ("admin".equalsIgnoreCase(login.getUsername()) && "admin".equalsIgnoreCase(login.getPassword())) {
+            session.setAttribute(SESSION_KEY_LOGGED, true);
+            return ResponseEntity.ok(new JsonResult(JsonResult.STATUS_OK, "登录成功"));
+        } else {
+            return ResponseEntity.ok(new JsonResult(JsonResult.STATUS_ERROR, "密码或者账户错误"));
+        }
     }
 
-    @RequestMapping("isLogged")
-    Object isLogged(HttpServletRequest request) {
-        Object logged = request.getSession().getAttribute(SESSION_KEY_LOGGED);
-        return logged == null ? false : logged;
+    @ApiOperation("检查是否登录")
+    @RequestMapping(value = "logged", method = RequestMethod.GET)
+    ResponseEntity<JsonResult> logged(HttpServletRequest request) {
+        Boolean logged = (Boolean) request.getSession().getAttribute(SESSION_KEY_LOGGED);
+        logged = logged == null ? false : logged;
+
+        return ResponseEntity.ok(new JsonResult(JsonResult.STATUS_OK, "success", ImmutableMap.of("logged", logged)));
     }
 }
