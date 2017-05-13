@@ -53,8 +53,6 @@ public class UserInfoController {
 
         logger.info(new Gson().toJson(login));
 
-        userInfoModelDao.findAll()
-
         if ("admin".equalsIgnoreCase(login.getUsername()) && "admin".equalsIgnoreCase(login.getPassword())) {
             session.setAttribute(SESSION_KEY_LOGGED, true);
             return ResponseEntity.ok(new JsonResult(JsonResult.STATUS_OK, "登录成功"));
