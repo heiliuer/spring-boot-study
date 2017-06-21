@@ -1,7 +1,5 @@
 package com.heiliuer.youku;
 
-import com.heiliuer.email.EmailContent;
-import com.heiliuer.email.EmailSender;
 import com.heiliuer.youku.dao.RecordDao;
 import com.heiliuer.youku.dto.YoukuApiVideoDetailDto;
 import com.heiliuer.youku.entity.Record;
@@ -10,9 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
-import javax.mail.MessagingException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -60,7 +56,7 @@ public class ScheduledTasks {
                 recordDao.save(record);
 
                 if (!Objects.equals(prevEpisodeLast, episodeLast)) {
-                    sendEmailForEpisodeLastChanged(detail,record);
+                    sendEmailForEpisodeLastChanged(detail, record);
                 }
 
             } else {
@@ -77,25 +73,16 @@ public class ScheduledTasks {
         }
     }
 
+
+    @Autowired
+    EmailService emailService;
+
     @Async
     private void sendEmailForEpisodeLastChanged(YoukuApiVideoDetailDto detail, Record record) {
-        Context ctx = new Context(Locale.CHINA);
-        ctx.setVariable("record", record);
-        ctx.setVariable("detail", detail);
-        String htmlContent = this.templateEngine.process("email/changed", ctx);
-        EmailContent emailContent = new EmailContent();
-
-        emailContent.setContent(htmlContent);
-        emailContent.setSubject(record.getName() + " 更新了，最新第" + record.getEpisodeLast() + "集");
-        ArrayList<String> recipients = new ArrayList<>();
-        recipients.add("heiliuer@qq.com");
-        emailContent.setRecipients(recipients);
-        try {
-            EmailSender.STARCLINK_SENDER.get().send(emailContent);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-
+        Map<String, Object> data = new HashMap<>();
+        data.put("record", record);
+        data.put("detail", detail);
+        emailService.sendTemplateMail(record.getName() + " 更新了，最新第" + record.getEpisodeLast() + "集", "heiliuer@qq.com", "email/changed", data);
     }
 
 

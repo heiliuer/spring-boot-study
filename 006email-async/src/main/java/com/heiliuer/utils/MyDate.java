@@ -1,4 +1,4 @@
-package com.heiliuer.config;
+package com.heiliuer.utils;
 
 import java.util.Date;
 

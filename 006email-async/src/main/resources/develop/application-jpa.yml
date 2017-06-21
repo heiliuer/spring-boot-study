@@ -1,7 +1,7 @@
 spring:
     datasource:
         testWhileIdle: true
-        url: jdbc:mysql:///myhome?useUnicode=true&characterEncoding=UTF-8
+        url: jdbc:mysql:///myhome?useUnicode=true&characterEncoding=UTF-8&useSSL=true
         username: root
         password: 123456
         validationQuery: SELECT 1
