@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.heiliuer.springboot_study</groupId>
-    <artifactId>006pratice-myhome</artifactId>
+    <artifactId>006email-async</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <url>http://maven.apache.org</url>

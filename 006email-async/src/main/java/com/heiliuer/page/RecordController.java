@@ -1,6 +1,6 @@
 package com.heiliuer.page;
 
-import com.heiliuer.config.MyDate;
+import com.heiliuer.utils.MyDate;
 import com.heiliuer.youku.dao.RecordDao;
 import com.heiliuer.youku.entity.Record;
 import org.springframework.beans.factory.annotation.Autowired;
